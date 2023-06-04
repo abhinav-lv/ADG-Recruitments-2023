@@ -1,0 +1,19 @@
+{
+  "name": "adg-recruitments-2023",
+  "version": "1.0.0",
+  "description": "Recruitments Portal for ADG-VIT's 2023 Recruits",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "connect-redis": "^7.1.0",
+    "dotenv": "^16.1.4",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mongoose": "^7.2.2",
+    "redis": "^4.6.7"
+  }
+}
