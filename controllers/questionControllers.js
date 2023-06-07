@@ -1,5 +1,20 @@
 const Question = require('../models/Question')
 
+const getRandomQuestions = (allQuestions) => {
+    const n1 = allQuestions.length                              // Total no. of questions
+    const n2 = 10                                               // No. of questions we actually want
+    
+    let pool = [...Array(n1).keys()]
+    
+    var result = []
+    
+    while (result.length < n2) {
+       let index = Math.floor(Math.random() * pool.length)
+       result = result.concat([allQuestions[pool.splice(index,1)[0]]])
+    }
+    return result
+}
+
 // ---------------------------------------------------------------------------------------------------------------------------------------
 
 const setQuestions = async (req,res) => {
@@ -7,10 +22,9 @@ const setQuestions = async (req,res) => {
         const check = await Question.findOne({
             domain: req.body.domain, 
             subdomain: req.body.subdomain,
-            yearOfStudy: req.body.yearOfStudy
         })
         if(check){
-            res.status(200).send('Questions for given domain, subdomain and year of study already exist')
+            res.status(200).send('Questions for given subdomain already exist')
             return
         }
         const questions = new Question(req.body)
@@ -32,8 +46,8 @@ const getQuestions = async (req,res) => {
     }
 
     try{
-        const { domain, subdomain, yearOfStudy } = req.body
-        const result = await Question.findOne({domain, subdomain, yearOfStudy})
+        const { domain, subdomain } = req.body
+        const result = await Question.findOne({domain, subdomain})
         
         const questions = result ? result.questions : false
 
@@ -44,26 +58,28 @@ const getQuestions = async (req,res) => {
         }
 
         // Not supposed to send answers
-        const body = { domain, subdomain, yearOfStudy,
-            questions: questions.map((question) => {
-                return {
-                    Sno: question.Sno,
-                    question: question.Question,
-                    options: {
-                        a: question.OptionA,
-                        b: question.OptionB,
-                        c: question.OptionC,
-                        d: question.OptionD,
-                    }
-                }
-            })
-        }
+        const allQuestions = questions.map((question) => {
+            return {
+                Sno: question.Sno,
+                question: question.Question,
+                options: {
+                    a: question.OptionA,
+                    b: question.OptionB,
+                    c: question.OptionC,
+                    d: question.OptionD,
+                }  
+            }
+        })
+
+        const randomQuestions = getRandomQuestions(allQuestions)
+
+        const body = { domain, subdomain, questions: randomQuestions }
 
         if(!req.session.user.test.isTakingTest){
             req.session.user.test = {
                 ...req.session.user.test,
                 isTakingTest: true, 
-                testDetails: {domain, subdomain, yearOfStudy},
+                testDetails: {domain, subdomain},
                 testStartedAt: new Date().toString()
             }   
         }

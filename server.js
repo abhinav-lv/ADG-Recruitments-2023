@@ -33,10 +33,13 @@ app.use(session({
 }));
 
 // Root route
-app.get('/api', (req,res) => res.send('Server root route'))
+app.get('/api', (req,res) => res.send('ADG Recruitments Server Root Route'))
 
 // Auth
 app.use('/api/auth', authRoutes)
+
+// Server auth middleware
+app.use((req,res,next) => req.session?.user ? next() : res.status(403).send('Unauthorized'))
 
 // Questions
 app.use('/api/questions', questionRoutes)

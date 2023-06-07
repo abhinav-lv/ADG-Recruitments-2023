@@ -12,6 +12,7 @@ import Apple from "@mui/icons-material/Apple";
 import Language from "@mui/icons-material/Language";
 import ADB from "@mui/icons-material/Adb";
 import Psychology from "@mui/icons-material/PsychologyAlt";
+import BitCoin from '@mui/icons-material/CurrencyBitcoin';
 
 /* ---------------------------------------------------------------- */
 
@@ -43,14 +44,15 @@ const Technical = () => {
         setDomain(e.target.value)
     }
 
-    let ios, web, android, ml, attempted
+    let ios, web, android, ml, blockchain, attempted
     if(user){
         ios = user.attemptedDomains.ios
         web = user.attemptedDomains.web
+        blockchain = user.attemptedDomains.blockchain
         android = user.attemptedDomains.android
         ml = user.attemptedDomains.ml
     }
-    attempted = ios || web || android || ml
+    attempted = ios || web || android || ml || blockchain
 
     return !user ? <Loader/> : (
         <div style={{height: '100vh'}} className="domainPage">
@@ -79,6 +81,16 @@ const Technical = () => {
                             </div>
                             <input type='radio' value='web' name='selection' id='technical-web' disabled={attempted} className="input"></input>
                         </div>
+
+                        {/* Blockchain */}
+                        <div className={attempted ? 'domainRowDead' : 'domainRow'}>
+                            <BitCoin style={{ fontSize: 55 }} />
+                            <div style={{marginLeft: '10px'}} className="info">
+                                <h1 className="heading">Blockchain</h1>
+                                <p className="para">10 Questions . 10 mins . Objective Type</p>
+                            </div>
+                            <input type='radio' value='blockchain' name='selection' id='technical-blockchain' disabled={attempted} className="input"></input>
+                        </div> 
                             
                         {/* Android */}
                         <div className={attempted ? 'domainRowDead' : 'domainRow'}>

@@ -8,7 +8,6 @@ const Admin = () => {
     const [questions, setQuestions] = useState({})
     const [domain, setDomain] = useState('technical')
     const [subdomain, setSubDomain] = useState('ios')   
-    const [yearOfStudy, setYearOfStudy] = useState(1)
 
     const onChange = (e) => {
         const file = e.target.files ? e.target.files[0] : false
@@ -40,7 +39,7 @@ const Admin = () => {
             setValid({status: false, message: 'No file selected'})
         }
         else if(valid.status){
-            const body = {domain, subdomain , yearOfStudy, questions}
+            const body = {domain, subdomain, questions}
             console.log(body)
             const res = await axios.post('api/questions/set', body)
             console.log(res)
@@ -72,21 +71,6 @@ const Admin = () => {
                 onChange={onChange}
             ></input>
 
-            {/* Select year of study */}
-            <p style={{margin: '20px 0 0 20px'}}>
-                Year of Study:
-                <select
-                     name="yearOfStudy"
-                     value={yearOfStudy}
-                     onChange={(e) => setYearOfStudy(Number(e.target.value))}
-                     style={{marginLeft: '20px'}}
-                >
-                    <option value={1}>1</option>
-                    <option value={2}>2</option>
-                    <option value={3}>3</option>
-                </select>
-            </p>
-
             {/* Select domain */}
             <p style={{margin: '20px 0 0 20px'}}>
                 Domain: 
@@ -116,6 +100,7 @@ const Admin = () => {
                     <>
                         <option value="ios">iOS</option>
                         <option value="web">Web</option>
+                        <option value="blockchain">Blockchain</option>
                         <option value="android">Android</option>
                         <option value="ml">Machine Learning</option>
                     </>

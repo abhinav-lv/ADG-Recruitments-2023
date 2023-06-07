@@ -13,12 +13,11 @@ import Loader from "../../components/Loader";
 /* Get questions from server */
 const getQuestions = async (state, setState, location) => {
     try{
-        const { domain, subdomain, yearOfStudy } = location.state
+        const { domain, subdomain } = location.state
         // console.log(location.state)
         const res = await axios.post('/api/questions/get', {
             domain,
             subdomain,
-            yearOfStudy,
         })
         // console.log(res.data.questions)
         setState({

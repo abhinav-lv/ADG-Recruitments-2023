@@ -8,7 +8,6 @@ const userSchema = new Schema({
 
     // User info
     regNo: {type: String, index:{unique:true}},
-    yearOfStudy: {type: Number, default: 2},
     password: {type: String},
 
     // Attemped subdomains

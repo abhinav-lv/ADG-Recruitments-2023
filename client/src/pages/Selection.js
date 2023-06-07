@@ -47,7 +47,7 @@ const Selection = () => {
     let bleh, tech, man, proj, des, remainingTime
     if(user){
         bleh = user.attemptedDomains
-        tech = bleh.ios || bleh.web || bleh.android || bleh.ml
+        tech = bleh.ios || bleh.web || bleh.android || bleh.ml || bleh.blockchain
         man = (bleh.marketing || bleh.editorial) && bleh.sponsorship && bleh.operations && bleh.logistics
         proj = bleh.rnd || bleh.projMgmt 
         des = (bleh.poster || bleh.uiux) && bleh.video && bleh.threed

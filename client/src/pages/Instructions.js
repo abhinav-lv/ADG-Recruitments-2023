@@ -14,9 +14,8 @@ const authorizeUser = async (navigate, setUser, location) => {
         const res = await axios.get('/api/auth/authorize')
         
         const domains = location.state
-        const yearOfStudy = res.data.yearOfStudy
         
-        if(res.data.test.isTakingTest) navigate('/test', {state: {domain : domains.domain, subdomain: domains.subdomain, yearOfStudy}})
+        if(res.data.test.isTakingTest) navigate('/test', {state: {domain : domains.domain, subdomain: domains.subdomain}})
         else setUser(res.data)
     }
     catch(err){
@@ -45,7 +44,6 @@ const Instructions = () => {
     },[])
 
     const domains = location.state
-    const yearOfStudy = user?.yearOfStudy
 
     return !user ? <Loader/> : (
         <div style={{height: '100vh'}} className="instrCon">
@@ -101,7 +99,7 @@ const Instructions = () => {
                     </ul>
                     <Link 
                         to={'/test'}
-                        state={{domain : domains.domain, subdomain: domains.subdomain, yearOfStudy}}
+                        state={{domain : domains.domain, subdomain: domains.subdomain}}
                         className='instrbtn1'
                     >
                         Start Test

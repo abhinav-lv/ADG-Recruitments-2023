@@ -7,7 +7,6 @@ mongoose.connect(process.env.MONGO_URI);
 const questionSchema = new Schema({
     domain: {type: String},
     subdomain: {type: String},
-    yearOfStudy: {type: Number},
     questions: {type: Array},
 })
 
