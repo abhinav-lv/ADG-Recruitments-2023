@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt')
 const User = require('../models/User')
 
 const getElapsedTime = (time1, time2) => {
@@ -11,28 +12,32 @@ const getElapsedTime = (time1, time2) => {
 const authenticateUser = async (req,res) => {
     try{
         const userExists = await User.findOne({'regNo': `${req.body.regNo}`})
-        if(!userExists) res.status(403).send('User not found in database, not part of ADG')
+        if(!userExists) res.status(403).send('You sure you from ADG?')
         else{
-            if(userExists.password !== req.body.password){
-                res.status(403).send('Invalid password')
-                return
-            }
-            // console.log(userExists.timeLeftToAttempt)
-            req.session.regenerate((err) => {
-                if(err) console.error(err)
-                
-                req.session.user = {
-                    regNo: userExists.regNo, 
-                    yearOfStudy: userExists.yearOfStudy,
-                    attemptedDomains: JSON.parse(userExists.attempted),
-                    test: {
-                        isTakingTest: false, 
-                        testStartedAt: '', 
-                        remainingTime: JSON.stringify(userExists.timeLeftToAttempt),
-                        testDetails: {}
-                    }
+            const hash = userExists.password
+            const { password } = req.body
+            bcrypt.compare(password, hash, (err, result) => {
+                if(!result){
+                    res.status(403).send('Invalid password')
                 }
-                res.status(200).send(req.session.user)
+                else{
+                    req.session.regenerate((err) => {
+                        if(err) console.error(err)
+                        
+                        req.session.user = {
+                            regNo: userExists.regNo, 
+                            yearOfStudy: userExists.yearOfStudy,
+                            attemptedDomains: JSON.parse(userExists.attempted),
+                            test: {
+                                isTakingTest: false, 
+                                testStartedAt: '', 
+                                remainingTime: JSON.stringify(userExists.timeLeftToAttempt),
+                                testDetails: {}
+                            }
+                        }
+                        res.status(200).send(req.session.user)
+                    })    
+                }
             })
         }
     }

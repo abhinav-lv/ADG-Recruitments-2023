@@ -32,7 +32,7 @@ const setQuestions = async (req,res) => {
         res.status(200).send('Questions received')
     }
     catch(err){
-        console.err(err)
+        console.error(err.message)
         res.status(200).send('Questions received, but err')
     }
 }
