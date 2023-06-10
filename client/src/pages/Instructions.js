@@ -49,7 +49,7 @@ const Instructions = () => {
         <div style={{height: '100vh'}} className="instrCon">
             <div className="instrMain">
                 <div className="instrLeft">
-                    {`${capitalize(domains.domain)} - ${capitalize(domains.subdomain)} Quiz`}
+                    {`${capitalize(domains.subdomain)} Quiz`}
                 </div>
                 <div className="instrRight">
                     <div className='heading2'>

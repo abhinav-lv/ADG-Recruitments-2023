@@ -1,8 +1,9 @@
 {
   "files": {
-    "main.css": "/static/css/main.d1e05cdc.css",
-    "main.js": "/static/js/main.fa2020c0.js",
+    "main.css": "/static/css/main.076400f3.css",
+    "main.js": "/static/js/main.ea16ddfc.js",
     "static/js/787.c4e7f8f9.chunk.js": "/static/js/787.c4e7f8f9.chunk.js",
+    "static/media/back-img.png": "/static/media/back-img.feadef795e55bac30e98.png",
     "static/media/back_img_main.svg": "/static/media/back_img_main.0f60642658bde7d4111625c29cded711.svg",
     "static/media/adggif.gif": "/static/media/adggif.81e3db74c92ee85d198a.gif",
     "static/media/Gilroy-Medium.ttf": "/static/media/Gilroy-Medium.f9f832b0ed3f1ab138c9.ttf",
@@ -13,12 +14,12 @@
     "static/media/adg_logo.svg": "/static/media/adg_logo.f4e6f3cbbb445d1c872a20bbd6af7fe3.svg",
     "static/media/Portal.svg": "/static/media/Portal.2633b8bff63471c75902391b6fc55eaf.svg",
     "index.html": "/index.html",
-    "main.d1e05cdc.css.map": "/static/css/main.d1e05cdc.css.map",
-    "main.fa2020c0.js.map": "/static/js/main.fa2020c0.js.map",
+    "main.076400f3.css.map": "/static/css/main.076400f3.css.map",
+    "main.ea16ddfc.js.map": "/static/js/main.ea16ddfc.js.map",
     "787.c4e7f8f9.chunk.js.map": "/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d1e05cdc.css",
-    "static/js/main.fa2020c0.js"
+    "static/css/main.076400f3.css",
+    "static/js/main.ea16ddfc.js"
   ]
 }

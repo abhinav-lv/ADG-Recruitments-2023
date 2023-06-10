@@ -8,6 +8,10 @@ import Modal from "../../components/Modal";
 import Timer from "../../components/Timer";
 import Loader from "../../components/Loader";
 
+function capitalize(string) {
+    return string?.charAt(0).toUpperCase() + string?.slice(1);
+}
+
 /* ---------------------------------------------------------------- */
 
 /* Get questions from server */
@@ -185,7 +189,6 @@ const TechQuiz = () => {
         const body = { domain, subdomain, responses }
         try{
             await axios.post(`/api/responses/send`, body)
-            // console.log(res.data)
             navigate('/selection')
         }
         catch(err){
@@ -220,63 +223,39 @@ const TechQuiz = () => {
 
     else return (
         <div className="quizMain">
-            <div className="heading">{location.state.subdomain} Quiz</div>
-                <div className="question-section">
+            <div style={{display: "flex", flexDirection: "column", alignItems: "center", width: "100%", alignSelf: "flex-start"}}>
+                <div className="heading">{capitalize(location.state.domain)} Quiz</div>
+                    <div className="question-section">
 
-                    {/* QUESTION COUNT  eg: (1/10) */}
-                    <div className="question-count">
-                        <span>
-                            Question{" "}
-                            {state.currentQuestion + 1}
-                        </span>
-                        /{state.questions?.length}
+                        {/* QUESTION COUNT  eg: (1/10) */}
+                        <div className="question-count">
+                            <span>
+                                Question{" "}
+                                {state.currentQuestion + 1}
+                            </span>
+                            /{state.questions?.length}
+                        </div>
+
+                        {/* QUESTION DESCRIPTION */}
+                        <div className="tech-quiz">
+                        {
+                            state.questions ? state.questions[state.currentQuestion].question : <p></p>
+                        }
+                        </div>
                     </div>
 
-                    {/* QUESTION DESCRIPTION */}
-                    <div className="tech-quiz">
-                    {
-                        state.questions ? state.questions[state.currentQuestion].question : <p></p>
-                    }
-                    </div>
-
-            {/* Answer section */}
-            <div className="answer-section">
-                {state.questions ? 
-                Object.keys(
-                    state.questions[
-                        state.currentQuestion
-                    ].options
-                ).map((key,index) => {
-                    if (
-                        state.responses[
-                            `${state.currentQuestion}`
-                        ] === undefined
-                    ) {
-                        return (
-                            <div
-                                key={index}
-                                onClick={updateOption}
-                            >
-                                <button
-                                    className={
-                                        state.responses[state.currentQuestion] === key ?
-                                        'blueButton' : 'blackButton' 
-                                    }
-                                    value={key}
-                                >
-                                    {
-                                        optionsArray[index]
-                                    }
-                                    .{" "}
-                                    {
-                                        state.questions[state.currentQuestion].options[key]
-                                    }
-                                </button>
-                            </div>
-                        );
-                    } else {
+                {/* Answer section */}
+                <div className="answer-section">
+                    {state.questions ? 
+                    Object.keys(
+                        state.questions[
+                            state.currentQuestion
+                        ].options
+                    ).map((key,index) => {
                         if (
-                            state.responses[`${state.currentQuestion}`].response === optionsArray[index]
+                            state.responses[
+                                `${state.currentQuestion}`
+                            ] === undefined
                         ) {
                             return (
                                 <div
@@ -288,88 +267,116 @@ const TechQuiz = () => {
                                             state.responses[state.currentQuestion] === key ?
                                             'blueButton' : 'blackButton' 
                                         }
-                                        value={optionsArray[index]}
+                                        value={key}
                                     >
-                                        {optionsArray[index]}
+                                        {
+                                            optionsArray[index]
+                                        }
                                         .{" "}
-                                        {state.questions[state.currentQuestion].options[key]}
+                                        {
+                                            state.questions[state.currentQuestion].options[key]
+                                        }
                                     </button>
                                 </div>
                             );
                         } else {
-                            return (
-                                <div
-                                    key={index}
-                                    onClick={updateOption}
-                                >
-                                    <button
-                                        className={
-                                            state.responses[state.currentQuestion] === key ?
-                                            'blueButton' : 'blackButton' 
-                                        }
-                                        value={optionsArray[index]}
+                            if (
+                                state.responses[`${state.currentQuestion}`].response === optionsArray[index]
+                            ) {
+                                return (
+                                    <div
+                                        key={index}
+                                        onClick={updateOption}
                                     >
-                                        {optionsArray[index]}
-                                        .{" "}
-                                        {state.questions[state.currentQuestion].options[key]}
-                                    </button>
-                                </div>
-                            );
+                                        <button
+                                            className={
+                                                state.responses[state.currentQuestion] === key ?
+                                                'blueButton' : 'blackButton' 
+                                            }
+                                            value={optionsArray[index]}
+                                        >
+                                            {optionsArray[index]}
+                                            .{" "}
+                                            {state.questions[state.currentQuestion].options[key]}
+                                        </button>
+                                    </div>
+                                );
+                            } else {
+                                return (
+                                    <div
+                                        key={index}
+                                        onClick={updateOption}
+                                    >
+                                        <button
+                                            className={
+                                                state.responses[state.currentQuestion] === key ?
+                                                'blueButton' : 'blackButton' 
+                                            }
+                                            value={optionsArray[index]}
+                                        >
+                                            {optionsArray[index]}
+                                            .{" "}
+                                            {state.questions[state.currentQuestion].options[key]}
+                                        </button>
+                                    </div>
+                                );
+                            }
                         }
-                    }
-                }) : <p></p>}
+                    }) : <p></p>}
+                </div>
+
+                {/* If any problem, display it */}
+                {state.problem.status ? 
+                    <div className='error'>{state.problem.message}</div>
+                : <p></p>    
+                }
             </div>
 
-            {/* If any problem, display it */}
-            {state.problem.status ? 
-                <div className='error'>{state.problem.message}</div>
-            : <p></p>    
-            }
-
-            {/* Mavigation and Submit Buttons */}
-            <div className="btn-bottom">
-                {state.currentQuestion === 0 ? (
-                    <button
-                        disabled={true}
-                        id="disabled-btn"
-                    >
-                        Previous
-                    </button>
-                ) : (
-                    <button
-                        onClick={() => {
-                            gotoPreviousQuestion();
-                        }}
-                    >
-                        Previous
-                    </button>
-                )}
-                {state.currentQuestion === state.questions.length-1 ? (
-                    <button
-                        onClick={onSubmit}
-                    >
-                        Submit
-                    </button>
-                ) : (
-                    <button
-                        onClick={() => {
-                            gotoNextQuestion();
-                        }}
-                    >
-                        Next
-                    </button>
-                )}
-                <Modal
-                    show={state.showModal}
-                    onHide={hideModal}
-                    submitQuiz={onConfirm}
-                />
-            </div>
-            <div className="timer">
-                <Timer initialMinute={initialMinute} initialSecond={initialSecond} onEnd={onConfirm}/>
+            <div>
+                {/* Navigation and Submit Buttons */}
+                <div className="btn-bottom">
+                    {state.currentQuestion === 0 ? (
+                        <button
+                            disabled={true}
+                            id="disabled-btn"
+                        >
+                            Previous
+                        </button>
+                    ) : (
+                        <button
+                            onClick={() => {
+                                gotoPreviousQuestion();
+                            }}
+                        >
+                            Previous
+                        </button>
+                    )}
+                    {state.currentQuestion === state.questions.length-1 ? (
+                        <button
+                            onClick={onSubmit}
+                        >
+                            Submit
+                        </button>
+                    ) : (
+                        <button
+                            onClick={() => {
+                                gotoNextQuestion();
+                            }}
+                        >
+                            Next
+                        </button>
+                    )}
+                    <Modal
+                        show={state.showModal}
+                        onHide={hideModal}
+                        submitQuiz={onConfirm}
+                    />
+                </div>
+                <div className="timer">
+                    <Timer initialMinute={initialMinute} initialSecond={initialSecond} onEnd={onConfirm}/>
+                </div>
             </div>
         </div>
-    </div>
     )
 }
 

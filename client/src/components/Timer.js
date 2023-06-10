@@ -23,7 +23,7 @@ const Timer = ({initialMinute, initialSecond, onEnd}) => {
     useEffect(function(){setTimeout(update,1000)}, [time])
 
     return (
-        <div style={{margin: '50px'}}>
+        <div>
             <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
 				<Alarm style={{fontSize: 30}}/>
 				<h2 style={{width: '70px', color: time.color}}>
